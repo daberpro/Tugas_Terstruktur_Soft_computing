@@ -1,25 +1,26 @@
 // fungsi untuk membuat batasan
 // dimana x merupakan variabel independen
 // dan y variabel dependen
-function debug_constrait(total_x = [],constrait_value = []){
+export function debug_constrait(total_x = [],constrait_value = []){
 	
 	let debug = '';
 	let value_index = 0;
 	for(let x of total_x){
 		let constrait = '';
-		let index = 1;
+		let index = 0;
 		for(let y of x){
 			constrait += ` ${y}x_${index} ${(index !== x.length)? '+': ''}`;
 			index++;
 		}
-		debug += constrait + `<= ${constrait_value[value_index]} \n`;
+		debug += constrait + ` \\le ${constrait_value[value_index]} \n`;
 		value_index++;
 	}
 
-	console.log(debug);
+	return debug;
+	// console.log(debug);
 }
 
-function debug_objective(total_x = []){
+export function debug_objective(total_x = []){
 
 	let debug = ' Z =';
 	for(let x of total_x){
@@ -29,11 +30,12 @@ function debug_objective(total_x = []){
 			index++;
 		}
 	}
-	console.log(debug);
+	// console.log(debug);
+	return debug;
 
 }
 
-function get_objective(total_x = [],shape = []){
+export function get_objective(total_x = [],shape = []){
 
 	const result = [];
 	for(let x = 0; x < shape[0]; x++){
@@ -49,7 +51,7 @@ function get_objective(total_x = [],shape = []){
 
 }
 
-function serialize_constrait(total_x = [[]],total_y = []){
+export function serialize_constrait(total_x = [[]],total_y = []){
 
 	const raw_result = [],result=[];
 	let index = 0;
@@ -98,7 +100,7 @@ function serialize_constrait(total_x = [[]],total_y = []){
 	};
 }
 
-function simplex(serialize_constrait,_objective,deb){
+export function simplex(serialize_constrait,_objective,deb){
 
 	const { raw_result: constrait } = serialize_constrait;
 	const { result: objective } = _objective;
@@ -108,6 +110,8 @@ function simplex(serialize_constrait,_objective,deb){
 	// jika iya maka berhenti
 	let check_objective = [...objective].sort((a,b)=> a - b);
 	if(check_objective[0] >= 0) return;
+	// tick++;
+	// console.log(tick);
 
 	// memilih kolom kunci 
 	let [[column,$1]] = objective.map((d,i)=> [i,d])
@@ -170,11 +174,11 @@ function simplex(serialize_constrait,_objective,deb){
 
 }
 
-const t = serialize_constrait([
-	[3,4],
-	[0,1],
-	[2,2]
-],[120,20,40]);
-const objective = get_objective([30,40],t.shape);
-t.debug(objective)
-const y = simplex(t,objective,true);
+// const t = serialize_constrait([
+// 	[3,4],
+// 	[0,1],
+// 	[2,2]
+// ],[120,20,40]);
+// const objective = get_objective([30,40],t.shape);
+// t.debug(objective)
+// const y = simplex(t,objective,true);
